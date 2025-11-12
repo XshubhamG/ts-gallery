@@ -11,16 +11,14 @@ import { index, pgTableCreator } from "drizzle-orm/pg-core";
  */
 export const createTable = pgTableCreator((name) => `ts-gallery_${name}`);
 
-export const posts = createTable(
-	"post",
+export const images = createTable(
+	"image",
 	(d) => ({
 		id: d.integer().primaryKey().generatedByDefaultAsIdentity(),
-		name: d.varchar({ length: 256 }),
-		createdAt: d
-			.timestamp({ withTimezone: true })
-			.$defaultFn(() => /* @__PURE__ */ new Date())
-			.notNull(),
+		name: d.varchar({ length: 256 }).notNull(),
+		url: d.varchar({ length: 1024 }).notNull(),
+		createdAt: d.timestamp({ withTimezone: true }).$defaultFn(() => new Date()).notNull(),
 		updatedAt: d.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
 	}),
-	(t) => [index("name_idx").on(t.name)],
+	(t) => [index("name_idx").on(t.name), index("url_idx").on(t.url)],
 );
