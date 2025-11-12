@@ -1,8 +1,11 @@
 import "~/styles/globals.css";
 
+import { ClerkProvider } from "@clerk/nextjs";
+
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import Link from "next/link";
+import TopNav from "./_components/TopNav";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -19,26 +22,21 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html className={`${geist.variable}`} lang="en">
-      <body className="max-w-7xl mx-auto">
-        <nav className="flex justify-between items-center p-4">
-          <Link href="/" className="text-2xl font-bold">
-            TS Gallery
-          </Link>
-          <div className="flex gap-4">
-            <Link
-              href="/sign-in"
-              className="text-md hover:font-semibold text-gray-300 hover:text-white"
-            >
-              Sign In
+    <ClerkProvider>
+      <html className={`${geist.variable}`} lang="en">
+        <body className="max-w-7xl mx-auto">
+          <header className="flex justify-between items-center p-4">
+            <Link href="/" className="text-2xl font-bold">
+              TS Gallery
             </Link>
-          </div>
-        </nav>
-        {children}
-        <footer className="text-center text-sm text-gray-500 p-4">
-          <p>&copy; {new Date().getFullYear()} TS Gallery</p>
-        </footer>
-      </body>
-    </html>
+            <TopNav />
+          </header>
+          {children}
+          <footer className="text-center text-sm text-gray-500 p-4">
+            <p>&copy; {new Date().getFullYear()} TS Gallery</p>
+          </footer>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
