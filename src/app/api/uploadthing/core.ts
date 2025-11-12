@@ -9,7 +9,7 @@ const f = createUploadthing();
 
 export const ourFileRouter = {
   imageUploader: f({
-    image: { maxFileSize: "4MB",},
+    image: { maxFileSize: "4MB", maxFileCount: 10},
   })
     .middleware(async ({ req }) => {
       const user = await auth();
@@ -23,6 +23,7 @@ export const ourFileRouter = {
        await db.insert(images).values({
         name: file.name,
         url: file.ufsUrl,
+        userId: metadata.userId
       })
 
       return { uploadedBy: metadata.userId };

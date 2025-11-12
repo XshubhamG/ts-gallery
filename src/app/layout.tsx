@@ -7,6 +7,9 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import Link from "next/link";
 import TopNav from "./_components/TopNav";
+import { extractRouterConfig } from "uploadthing/server";
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { ourFileRouter } from "./api/uploadthing/core";
 
 export const metadata: Metadata = {
   title: "TS Gallery",
@@ -25,6 +28,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html className={`${geist.variable}`} lang="en">
+        <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
         <body className="max-w-7xl mx-auto">
           <header className="flex justify-between items-center border-b border-gray-50 text-xl p-4">
             <Link href="/" className="text-2xl font-bold">

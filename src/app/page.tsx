@@ -4,12 +4,12 @@ import { db } from "~/server/db";
 
 export const dynamic = "force-dynamic";
 
-const images = await db.query.images.findMany({
-  orderBy: (models, { desc }) => [desc(models.id)],
-  limit: 10,
-});
-
 export default async function HomePage() {
+  const images = await db.query.images.findMany({
+    orderBy: (models, { desc }) => [desc(models.id)],
+    limit: 10,
+  });
+
   return (
     <main>
       <SignedOut>
