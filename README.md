@@ -6,8 +6,8 @@
 - [x] Scaffold basic ui with mock data
 - [x] Actually set up a database (vercel postgress)
 - [x] Attach database to ui
-- [ ] Add authentication
-- [ ] Add image upload
+- [x] Add authentication
+- [x] Add image upload
 - [ ] Error management
 - [ ] Routing/image page
 - [ ] Delete button
