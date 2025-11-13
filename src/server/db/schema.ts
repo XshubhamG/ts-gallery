@@ -18,7 +18,10 @@ export const images = createTable(
 		name: d.varchar({ length: 256 }).notNull(),
 		url: d.varchar({ length: 1024 }).notNull(),
 		userId: d.varchar({ length: 256 }).notNull(),
-		createdAt: d.timestamp({ withTimezone: true }).$defaultFn(() => new Date()).notNull(),
+		createdAt: d
+			.timestamp({ withTimezone: true })
+			.$defaultFn(() => new Date())
+			.notNull(),
 		updatedAt: d.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
 	}),
 	(t) => [index("name_idx").on(t.name), index("url_idx").on(t.url)],

@@ -6,28 +6,27 @@ import { images } from "~/server/db/schema";
 
 const f = createUploadthing();
 
-
 export const ourFileRouter = {
-  imageUploader: f({
-    image: { maxFileSize: "4MB", maxFileCount: 10},
-  })
-    .middleware(async ({ req }) => {
-      const user = await auth();
-      if (!user.userId) throw new UploadThingError("Unauthorized");
+	imageUploader: f({
+		image: { maxFileSize: "4MB", maxFileCount: 10 },
+	})
+		.middleware(async ({ req }) => {
+			const user = await auth();
+			if (!user.userId) throw new UploadThingError("Unauthorized");
 
-      return { userId: user.userId };
-    })
-    .onUploadComplete(async ({ metadata, file }) => {
-      console.log("Upload complete for userId:", metadata.userId);
+			return { userId: user.userId };
+		})
+		.onUploadComplete(async ({ metadata, file }) => {
+			console.log("Upload complete for userId:", metadata.userId);
 
-       await db.insert(images).values({
-        name: file.name,
-        url: file.ufsUrl,
-        userId: metadata.userId
-      })
+			await db.insert(images).values({
+				name: file.name,
+				url: file.ufsUrl,
+				userId: metadata.userId,
+			});
 
-      return { uploadedBy: metadata.userId };
-    }),
+			return { uploadedBy: metadata.userId };
+		}),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

@@ -2,46 +2,45 @@ import "~/styles/globals.css";
 import "@uploadthing/react/styles.css";
 
 import { ClerkProvider } from "@clerk/nextjs";
-
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import Link from "next/link";
-import TopNav from "./_components/TopNav";
 import { extractRouterConfig } from "uploadthing/server";
-import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import TopNav from "./_components/TopNav";
 import { ourFileRouter } from "./api/uploadthing/core";
 
 export const metadata: Metadata = {
-  title: "TS Gallery",
-  description: "TS Gallery is a collection of TypeScript projects",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+	title: "TS Gallery",
+	description: "TS Gallery is a collection of TypeScript projects",
+	icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
 const geist = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist-sans",
+	subsets: ["latin"],
+	variable: "--font-geist-sans",
 });
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{ children: React.ReactNode }>) {
-  return (
-    <ClerkProvider>
-      <html className={`${geist.variable}`} lang="en">
-        <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
-        <body className="max-w-7xl mx-auto">
-          <header className="flex justify-between items-center border-b border-gray-50 text-xl p-4">
-            <Link href="/" className="text-2xl font-bold">
-              TS Gallery
-            </Link>
-            <TopNav />
-          </header>
-          {children}
-          <footer className="text-center text-sm text-gray-500 p-4">
-            <p>&copy; {new Date().getFullYear()} TS Gallery</p>
-          </footer>
-        </body>
-      </html>
-    </ClerkProvider>
-  );
+	return (
+		<ClerkProvider>
+			<html className={`${geist.variable}`} lang="en">
+				<NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
+				<body className="mx-auto max-w-7xl">
+					<header className="flex items-center justify-between border-gray-50 border-b p-4 text-xl">
+						<Link className="font-bold text-2xl" href="/">
+							TS Gallery
+						</Link>
+						<TopNav />
+					</header>
+					{children}
+					<footer className="p-4 text-center text-gray-500 text-sm">
+						<p>&copy; {new Date().getFullYear()} TS Gallery</p>
+					</footer>
+				</body>
+			</html>
+		</ClerkProvider>
+	);
 }
