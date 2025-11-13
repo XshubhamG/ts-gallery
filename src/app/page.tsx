@@ -1,6 +1,7 @@
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
+import { Link } from "next-view-transitions";
 import { getMyImages } from "~/server/queries";
 
 export const dynamic = "force-dynamic";
@@ -26,13 +27,20 @@ export default async function HomePage() {
               className="relative flex h-full w-full flex-col items-center justify-center gap-4"
               key={image.id}
             >
-              <Image
-                alt={image.name}
+              <Link
+                href={`/img/${image.id}`}
                 className="h-full w-full object-cover"
-                height={100}
-                src={image.url}
-                width={100}
-              />
+                prefetch={false}
+              >
+                <Image
+                  alt={image.name}
+                  height={100}
+                  className="h-full w-full object-cover"
+                  src={image.url}
+                  width={100}
+                  style={{ viewTransitionName: `image-${image.id}` }}
+                />
+              </Link>
               <p className="font-bold text-md text-white">{image.name}</p>
             </div>
           ))}
